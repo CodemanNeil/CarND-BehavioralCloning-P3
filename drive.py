@@ -1,25 +1,21 @@
 import argparse
 import base64
-import json
 
-import cv2
 import numpy as np
 import socketio
 import eventlet
 import eventlet.wsgi
-import time
 from PIL import Image
-from PIL import ImageOps
-from flask import Flask, render_template
+from flask import Flask
 from io import BytesIO
 
 from keras.models import model_from_json
 
 # Fix error with Keras and TensorFlow
 import tensorflow as tf
+from keras.optimizers import Adam
 
-from model import open_data
-from process_data import process_image
+from model import process_image
 
 tf.python.control_flow_ops = tf
 
@@ -34,7 +30,7 @@ def telemetry(sid, data):
     # The current steering angle of the car
     steering_angle = data["steering_angle"]
     # The current throttle of the car
-    throttle = 0.2
+    throttle = 0.20
     # The current speed of the car
     speed = data["speed"]
     # The current image from the center camera of the car
@@ -79,17 +75,9 @@ if __name__ == '__main__':
         model = model_from_json(jfile.read())
 
 
-    model.compile("adam", "mse")
+    model.compile(optimizer=Adam(0.0001), loss='mse')
     weights_file = args.model.replace('json', 'h5')
     model.load_weights(weights_file)
-
-    image_array = open_data('data/test_image.pickle')
-    image = process_image(image_array)
-    transformed_image_array = image[None, :, :, :]
-    # This model currently assumes that the features of the model are just the images. Feel free to change this.
-    steer_angle = float(model.predict(transformed_image_array, batch_size=1))
-
-    print(steer_angle)
 
     # wrap Flask application with engineio's middleware
     app = socketio.Middleware(sio, app)
