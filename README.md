@@ -48,11 +48,11 @@ I created a training and validation generator for training the model.  I used a 
 
 ![png](images/model.png) 
 
-I looked toward VGGNet for inspiration when deciding on my architecture.  There are 3 CONV blocks followed by 3 FC layers.  Each CONV block is composed of 2 CONV layers with 3x3 filters, followed by 2x2 max pooling, and a dropout layer.  The CONV block depths double from 32 to 64 to 128, forming a typical pyramid architeecture.  The FC layers have 512 and 64 neurons respectively, each also followed by a dropout layer.  For all the proceeding layers, I used the exponential linear unit activation, finding it worked better than RELUs. The final output layer is a single node with a linear activation.  I had initially used a tanh activation on the output node, as the output is constrained between -1 and 1, but found far better results with a linear activation.  
+I looked toward VGGNet for inspiration when deciding on my architecture. The first layer is a lambda layer that normalizes all pixel values to [-0.5, 0.5]. There are 3 CONV blocks followed by 3 FC layers.  Each CONV block is composed of 2 CONV layers with 3x3 filters, followed by 2x2 max pooling, and a dropout layer.  The CONV block depths double from 32 to 64 to 128, forming a typical pyramid architeecture.  The FC layers have 512 and 64 neurons respectively, each also followed by a dropout layer.  For all the proceeding layers, I used the exponential linear unit activation, finding it worked better than RELUs. The final output layer is a single node with a linear activation.  I had initially used a tanh activation on the output node, as the output is constrained between -1 and 1, but found far better results with a linear activation.  
 
 ### Optimizer
 
-I used the ADAM optimizer and mean squared error loss function.  I had to use multiple learning rates, but found that a learning rate of 0.0001 worked best in training.
+I used the ADAM optimizer and mean squared error loss function.  I had to use multiple learning rates, but found that a learning rate of 0.0001 worked best in training.  I tested using weight decay to reduce overfitting, but found the use of dropout layers sufficient.
 
 ### Training
 
