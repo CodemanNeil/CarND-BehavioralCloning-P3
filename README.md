@@ -18,13 +18,15 @@ Due to size constraints, I have not incldued the training data in this GitHub Re
 
 ### Data Collection
 
-I initially used only Udacity's provided driving data, but found it insufficient for training, so I appended it with my own data.  I collected this using an Xbox 360 controller in order to get more consistent steering angles than was possible using only a keyboard.  
+I initially used only Udacity's provided driving data, but found it insufficient for training, so I appended it with my own data.  I collected this using an Xbox 360 controller in order to get more consistent steering angles than was possible using only a keyboard.  I collected 4 full laps of training around track 1 and did not need to collect any recovery data.
+
+![png](images/histogram.png) 
 
 ### Augmenting 
 
 #### Left/Right Camera
 
-Inspired by [this NVIDIA paper](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf), I added/subtracted 0.25 from the steering angle of the left/right images respectively.  This tripled the number of data points, and acted as "recovery" data, teaching the car to steer back to the center. 
+Inspired by [this NVIDIA paper](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf), I added/subtracted 0.25 from the steering angle of the left/right images respectively.  This tripled the number of data points, and acted as "recovery" data, teaching the car to steer back to the center. By using the left/right camera, I was able to avoid having to collect explicit recovery data.
 
 ![png](images/steer_angles.png) 
 

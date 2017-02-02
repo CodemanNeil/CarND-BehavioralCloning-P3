@@ -167,11 +167,7 @@ if __name__ == "__main__":
     model = get_model()
     model.compile(optimizer=Adam(0.0001), loss='mse')
 
-    plot(model, to_file='model.png')
-
-    json = model.to_json()
-    with open('best_weights.json', 'w') as out:
-        out.write(json)
+    # plot(model, to_file='model.png')
 
     X_train, y_train = get_training_data()
     batch_size = 256
